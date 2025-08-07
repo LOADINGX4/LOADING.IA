@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>LOADING AI – Admin Control</title>
+  <style>
+    body { background: #000; color: #0f0; font-family: monospace; padding: 20px; }
+    textarea { width: 100%; height: 200px; background: #111; color: #0f0; }
+    button { padding: 10px 20px; background: #0f0; color: #000; font-weight: bold; }
+    pre { white-space: pre-wrap; word-wrap: break-word; background: #111; padding: 10px; }
+  </style>
+</head>
+<body>
+  <h1>👁‍🗨 LOADING AI — Admin Terminal</h1>
+  <textarea id="prompt" placeholder="Enter your command..."></textarea><br><br>
+  <button onclick="send()">Execute</button>
+  <h3>🔹 Response:</h3>
+  <pre id="response">Waiting...</pre>
+
+  <script>
+    async function send() {
+      const prompt = document.getElementById("prompt").value;
+      document.getElementById("response").textContent = "Thinking...";
+      const res = await fetch("/execute", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt })
+      });
+      const data = await res.json();
+      document.getElementById("response").textContent = data.response;
+    }
+  </script>
+</body>
+</html>
